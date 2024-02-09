@@ -2,6 +2,9 @@ export * from './layout';
 export * from './no-match';
 export * from './file-uploader';
 export * from './table';
-export * from './navigation-bar';
 export * from './suspense';
-export * from "./modal"
+export * from "./pagination"
+export * from "./button"
+export * from "./dialog"
+export * from "./input"
+export * from "./label"

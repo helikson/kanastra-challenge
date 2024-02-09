@@ -41,7 +41,6 @@ COPY ./docker/php/custom.ini /usr/local/etc/php/conf.d/custom.ini
 
 USER $user
 
-RUN composer install
-RUN php artisan key:generate
-RUN php artisan migrate
-RUN php artisan schedule:run
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

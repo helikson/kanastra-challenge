@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind screens;
@@ -14,6 +14,26 @@
 
   body {
     @apply overflow-hidden;
+    font-family: "Inter", sans-serif;
+  }
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+@layer utilities   {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-slate-50;
     font-family: "Inter", sans-serif;
   }
 }

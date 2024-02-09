@@ -1,16 +1,23 @@
 version: "3.7"
 
 services:
+    # react project
     frontend:
         build:
             context: ./frontend
             dockerfile: Dockerfile
         restart: unless-stopped
-        ports:
-            - 8888:8888
+        working_dir: /app
+        command: sh -c "npm install && npm run dev:node"
+        volumes:
+            - ./frontend:/app
         depends_on:
             - app
             - db
+        ports:
+            - 8888:8888
+        networks:
+            - laravel
 
     # image project
     app:

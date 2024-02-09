@@ -87,7 +87,7 @@ function Billings() {
                   className="text-right space-x-12"
                   colSpan={6}
                >
-                  <Components.TablePagination
+                  {/* <Components.TablePagination
                      from={billings.from}
                      to={billings.to}
                      total={billings.total}
@@ -95,7 +95,7 @@ function Billings() {
                      hasNextPage={!!billings.next_page_url}
                      gotoPreviousPage={() => callPage(billings.prev_page_url)}
                      gotoNextPage={() => callPage(billings.next_page_url)}
-                  />
+                  /> */}
                </Components.TableHead>
             </Components.TableRow>
          </Components.TableFooter>
