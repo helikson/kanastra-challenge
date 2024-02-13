@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'paghiper' => [
+        'url' => env('PAGHIPER_URL'),
+        'apiKey' => env('PAGHIPER_API_KEY'),
+        'token' => env('PAGHIPER_TOKEN'),
+    ]
+
 ];

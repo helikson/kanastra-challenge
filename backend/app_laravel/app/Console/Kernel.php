@@ -2,21 +2,21 @@
 
 namespace App\Console;
 
-use App\Console\Commands\SendEmail;
+use App\Console\Commands\GeneratePagHiperBillet;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        SendEmail::class,
+        GeneratePagHiperBillet::class,
     ];
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:send-email')->daily();
+        $schedule->command('app:generate-paghiper-billet')->dailyAt("00:00")->runInBackground();
     }
 
     /**
@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

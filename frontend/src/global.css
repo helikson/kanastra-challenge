@@ -3,7 +3,7 @@
 @tailwind utilities;
 @tailwind screens;
 
-@layer utilities   {
+@layer utilities {
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -13,7 +13,23 @@
   }
 
   body {
-    @apply overflow-hidden;
+    @apply bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-50;
     font-family: "Inter", sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-50 dark:bg-zinc-900 rounded-lg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-600 dark:bg-zinc-200 rounded-lg;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-500 dark:bg-zinc-200;
   }
 }

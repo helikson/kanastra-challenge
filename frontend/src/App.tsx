@@ -1,40 +1,35 @@
-import { lazy } from 'react'
+import { Suspense, lazy, memo } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { QueryClientProvider } from "@tanstack/react-query";
 
-import * as Components from './components'
-import { FileProvider } from './components/ui/file';
+import * as Components from '@/components'
+import { FileProvider } from '@/components/file';
+import { queryClient } from '@/lib/react-query';
+import BillingsSkeleton from '@/pages/Billings/billings-skeleton';
 
-const Billings = lazy(() => import('./pages/Billings'));
-const FilesUploaded = lazy(() => import('./pages/FilesUploaded'));
+const Billings = lazy(() => import('@/pages/Billings'));
 
 function App() {
    return (
-      <FileProvider>
-         <Routes>
-            <Route path="/" element={<Components.Layout />}>
-               <Route
-                  index
-                  element={
-                     <Components.Suspense>
-                        <Billings />
-                     </Components.Suspense>
-                  }
-               />
+      <QueryClientProvider client={queryClient}>
+         <FileProvider>
+            <Routes>
+               <Route path="/" element={<Components.Layout />}>
+                  <Route
+                     index
+                     element={
+                        <Suspense fallback={<BillingsSkeleton />}>
+                           <Billings />
+                        </Suspense>
+                     }
+                  />
 
-               <Route
-                  path="/files-uploaded"
-                  element={
-                     <Components.Suspense>
-                        <FilesUploaded />
-                     </Components.Suspense>
-                  }
-               />
-
-               <Route path="*" element={<Components.NoMatch />} />
-            </Route>
-         </Routes>
-      </FileProvider>
+                  <Route path="*" element={<Components.NoMatch />} />
+               </Route>
+            </Routes>
+         </FileProvider>
+      </QueryClientProvider>
    )
 }
 
-export default App;
+export default memo(App);
