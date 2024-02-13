@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repositories;
 
 use App\DTO\CreateBillingDTO;
@@ -22,7 +21,7 @@ class BillingEloquentORM implements BillingRepositoryInterface {
                         $query->where("name", "like", "%$filter%");
                      }
                   })
-                  ->orderBy("created_at", "desc")
+                  ->orderBy("id", "asc")
                   ->paginate()
                   ->withPath("");
    }

@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\BilletRepositoryInterface;
 use App\Repositories\BillingEloquentORM;
 use App\Repositories\BillingRepositoryInterface;
+use App\Repositories\PagHiperRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +18,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             BillingRepositoryInterface::class,
             BillingEloquentORM::class
+        );
+
+        $this->app->bind(
+            BilletRepositoryInterface::class,
+            PagHiperRepository::class,
         );
     }
 

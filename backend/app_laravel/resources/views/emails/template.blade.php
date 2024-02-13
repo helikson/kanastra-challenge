@@ -2,6 +2,6 @@
 
 <p>Your debit amount is ${{ $debitAmount }}</p>
 
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+<p>See your billet <a href="{{ url($url) }}">here</a></p>
 
 <p>Thank you</p>

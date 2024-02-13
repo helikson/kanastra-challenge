@@ -3,25 +3,26 @@
 namespace App\Console\Commands;
 
 use App\Models\Billing;
+use App\Repositories\PagHiperRepository;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmail extends Command
+class GeneratePagHiperBillet extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:send-email';
+    protected $signature = 'app:generate-paghiper-billet';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send email';
+    protected $description = 'Generate Billet';
 
     /**
      * Execute the console command.
@@ -29,12 +30,24 @@ class SendEmail extends Command
     public function handle()
     {
         try {
-            $billings = Billing::select('email', 'name', 'debtAmount')->get();
+            $billings = Billing::select()->get();
 
             foreach ($billings as $billing) {
+                if (date("Y-m-d") > $billing->debtDueDate) {
+                    continue;
+                }
+
+                $controller = new PagHiperRepository();
+                $url = $controller->create(json_decode(json_encode($billing), true));
+
+                if (is_null($url)) {
+                    continue;
+                }
+
                 Mail::send("emails/template", [
                     "name" => $billing->name,
                     "debitAmount" => $billing->debtAmount,
+                    "url" => $url
                 ], function ($message) use ($billing) {
                     $message->to($billing->email)->subject('Laravel Billing');
                 });

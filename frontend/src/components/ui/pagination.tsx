@@ -30,7 +30,7 @@ const PaginationItem = React.forwardRef<
   HTMLLIElement,
   React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
+  <li ref={ref} className={cn("cursor-pointer", className)} {...props} />
 ))
 PaginationItem.displayName = "PaginationItem"
 
@@ -52,6 +52,7 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
+      "dark:hover:bg-zinc-700 dark:hover:text-zinc-50",
       className
     )}
     {...props}

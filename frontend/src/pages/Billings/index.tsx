@@ -1,106 +1,69 @@
-import { memo, useCallback, useEffect, useState } from "react";
-import * as Components from '@/components'
-import { useFileContext } from "@/components/ui/file";
-import { fetchData } from "@/lib/fetchData";
-
-const LIST_URL = import.meta.env.VITE_API_LIST;
+import { useQuery } from "@tanstack/react-query";
+import * as Components from "@/components";
+import { getBillings } from "@/data/get-billings";
+import CreateBilling from "@/pages/Billings/components/create-billing";
+import BillingsPagination from "@/pages/Billings/components/billings-pagination";
+import BillingsTableData from "@/pages/Billings/components/billings-table-data";
+import { memo, useState } from "react";
 
 function Billings() {
-   const [billings, setBillings] = useState<ServiceData>();
-   const [error, setError] = useState<string | null>(null);
-   const { state: { fileList } } = useFileContext();
+  const [pageLink, setPageLink] = useState("?page=1");
 
-   useEffect(() => {
-      callPage();
-   }, [fileList]);
+  const { data: fetchedData } = useQuery({
+    queryKey: ["billings", pageLink],
+    queryFn: () => getBillings(pageLink),
+  });
 
-   const callPage = useCallback((paginate?: string) => {
-      setError(null);
+  return (
+    <div className="mx-auto space-y-4 p-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Billings List</h1>
+        <Components.ModeToggle />
+      </div>
 
-      fetchData({
-         url: `${LIST_URL}${paginate || ""}`,
-         onSuccess: data => setBillings(data),
-         onFail: (error) => {
-            setBillings({} as ServiceData);
-            setError(error.message);
-         },
-      });
-   }, []);
+      <div className="rounded-lg border p-2">
+        <Components.Table>
+          <Components.TableCaption>Billings Table</Components.TableCaption>
 
-   if (error) {
-      return (
-         <p className="h-full w-full flex items-center justify-center text-red-500 text-lg font-semibold">
-            {error}
-         </p>
-      );
-   }
-
-   if (!billings) {
-      return (
-         <p className="h-full w-full flex items-center justify-center">
-            Loading...
-         </p>
-      );
-   }
-
-   if (Object.keys(billings.data || {}).length === 0) {
-      return (
-         <p className="h-full w-full flex items-center justify-center">
-            No data
-         </p>
-      );
-   }
-
-   return (
-      <Components.Table>
-         <Components.TableCaption>
-            Billings Table
-         </Components.TableCaption>
-
-         <Components.TableHeader>
+          <Components.TableHeader>
             <Components.TableRow>
-               <Components.TableHead>name</Components.TableHead>
-               <Components.TableHead>governmentId</Components.TableHead>
-               <Components.TableHead>email</Components.TableHead>
-               <Components.TableHead>debtAmount</Components.TableHead>
-               <Components.TableHead>debtDueDate</Components.TableHead>
-               <Components.TableHead>debtId</Components.TableHead>
+              <Components.TableHead>
+                <CreateBilling />
+              </Components.TableHead>
+              <Components.TableHead>Name</Components.TableHead>
+              <Components.TableHead>Government ID</Components.TableHead>
+              <Components.TableHead>Email</Components.TableHead>
+              <Components.TableHead>Debt Amount</Components.TableHead>
+              <Components.TableHead>Debt Due Date</Components.TableHead>
+              <Components.TableHead>Debt ID</Components.TableHead>
             </Components.TableRow>
-         </Components.TableHeader>
+          </Components.TableHeader>
 
-         <Components.TableBody>
-            {billings.data.map((billing: any) => (
-               <Components.TableRow key={billing.id}>
-                  <Components.TableCell>{billing.name}</Components.TableCell>
-                  <Components.TableCell>{billing.governmentId}</Components.TableCell>
-                  <Components.TableCell>{billing.email}</Components.TableCell>
-                  <Components.TableCell>{billing.debtAmount}</Components.TableCell>
-                  <Components.TableCell>{billing.debtDueDate}</Components.TableCell>
-                  <Components.TableCell>{billing.debtId}</Components.TableCell>
-               </Components.TableRow>
-            ))}
-         </Components.TableBody>
+          <Components.TableBody>
+            <BillingsTableData data={fetchedData?.data as Array<IBillings>} />
+          </Components.TableBody>
 
-         <Components.TableFooter>
+          <Components.TableFooter>
             <Components.TableRow>
-               <Components.TableHead
-                  className="text-right space-x-12"
-                  colSpan={6}
-               >
-                  {/* <Components.TablePagination
-                     from={billings.from}
-                     to={billings.to}
-                     total={billings.total}
-                     hasPreviousPage={!!billings.prev_page_url}
-                     hasNextPage={!!billings.next_page_url}
-                     gotoPreviousPage={() => callPage(billings.prev_page_url)}
-                     gotoNextPage={() => callPage(billings.next_page_url)}
-                  /> */}
-               </Components.TableHead>
+              <Components.TableHead
+                className="space-x-12 text-right"
+                colSpan={7}
+              >
+                <Components.Pagination>
+                  <Components.PaginationContent>
+                    <BillingsPagination
+                      links={fetchedData?.links as Array<IBillingsLink>}
+                      onHandleChange={setPageLink}
+                    />
+                  </Components.PaginationContent>
+                </Components.Pagination>
+              </Components.TableHead>
             </Components.TableRow>
-         </Components.TableFooter>
-      </Components.Table>
-   )
+          </Components.TableFooter>
+        </Components.Table>
+      </div>
+    </div>
+  );
 }
 
 export default memo(Billings);
