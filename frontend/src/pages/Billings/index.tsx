@@ -1,10 +1,10 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import * as Components from "@/components";
 import { getBillings } from "@/data/get-billings";
-import CreateBilling from "@/pages/Billings/components/create-billing";
+import BillingsUpload from "@/pages/Billings/components/billings-upload";
 import BillingsPagination from "@/pages/Billings/components/billings-pagination";
 import BillingsTableData from "@/pages/Billings/components/billings-table-data";
-import { memo, useState } from "react";
 
 function Billings() {
   const [pageLink, setPageLink] = useState("?page=1");
@@ -16,10 +16,7 @@ function Billings() {
 
   return (
     <div className="mx-auto space-y-4 p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Billings List</h1>
-        <Components.ModeToggle />
-      </div>
+      <h1 className="text-3xl font-bold">Billings List</h1>
 
       <div className="rounded-lg border p-2">
         <Components.Table>
@@ -28,7 +25,7 @@ function Billings() {
           <Components.TableHeader>
             <Components.TableRow>
               <Components.TableHead>
-                <CreateBilling />
+                <BillingsUpload />
               </Components.TableHead>
               <Components.TableHead>Name</Components.TableHead>
               <Components.TableHead>Government ID</Components.TableHead>
@@ -66,4 +63,4 @@ function Billings() {
   );
 }
 
-export default memo(Billings);
+export default Billings;

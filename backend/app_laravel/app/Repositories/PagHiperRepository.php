@@ -34,10 +34,12 @@ class PagHiperRepository implements BilletRepositoryInterface
             'payer_cpf_cnpj' => $data['governmentId'],
             'payer_phone' => '11999999999',
 
+            'seller_description' => str($data['debtId'])->squish(),
+
             'items' => [
                [
                   'item_id' => $data['id'],
-                  'description' => "Test Item",
+                  'description' => "Test Product",
                   'quantity' => 1,
                   'price_cents' => str_replace(',', '.', str_replace('.', '', $data['debtAmount']))
                ],

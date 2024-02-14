@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useContext, useReducer } from "react";
+import { getFilesFromStorage, saveFilesToStorage } from "./file-storage";
 
 export enum FileActionType {
   SET_FILE = "SET_FILE",
@@ -37,6 +38,7 @@ type FileProviderProps = { children: ReactNode };
 export const FileContextInitialValues: Partial<FileContextState> = {
   file: {} as File,
   isLoading: false,
+  fileList: getFilesFromStorage(),
 };
 
 const FileContext = createContext({} as FileContextType);
@@ -67,9 +69,13 @@ const FileReducer = (
       }
     }
     case FileActionType.SET_FILE_LIST: {
+      const dataFileList = action.payload?.fileList as File[]
+
+      saveFilesToStorage(dataFileList);
+
       return {
         ...state,
-        fileList: action.payload?.fileList as File[]
+        fileList: dataFileList
       };
     }
     case FileActionType.SET_LOADING: {

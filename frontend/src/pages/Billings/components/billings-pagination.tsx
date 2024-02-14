@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components";
 
 interface IBillingsPaginationProps {
@@ -26,7 +25,11 @@ function BillingsPagination({ links, onHandleChange }: IBillingsPaginationProps)
          return (
             <PaginationItem key="pagination-next">
                <PaginationNext
-                  onClick={() => onHandleChange(link.url as string)}
+                  className={link.url === null ? "cursor-not-allowed" : ""}
+                  onClick={() => {
+                     if (link.url === null) return;
+                     onHandleChange(link.url as string)
+                  }}
                />
             </PaginationItem>
          )
@@ -53,4 +56,4 @@ function BillingsPagination({ links, onHandleChange }: IBillingsPaginationProps)
    })
 }
 
-export default memo(BillingsPagination);
+export default BillingsPagination;

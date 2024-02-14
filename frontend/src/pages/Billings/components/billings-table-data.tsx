@@ -1,4 +1,3 @@
-import { memo } from "react";
 import { TableCell, TableRow } from "@/components";
 
 interface IBillingsTableDataProps {
@@ -19,4 +18,4 @@ function BillingsTableData({ data }: IBillingsTableDataProps) {
    ))
 }
 
-export default memo(BillingsTableData);
+export default BillingsTableData;

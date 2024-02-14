@@ -4,3 +4,4 @@ export * from './layout';
 export * from './no-match';
 export * from './file-uploader';
 export * from "./theme-provider"
+export * from "./page-header"

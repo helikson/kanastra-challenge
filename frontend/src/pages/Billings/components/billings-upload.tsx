@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { useState } from "react";
 import { PlusCircle, AlertTriangle, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -6,15 +6,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Components from "@/components";
 import { createBilling } from "@/data/create-billings";
+import { FileActionType, useFileContext } from "@/components/file";
 
 const createBillingSchema = z.object({
-  csv_file: z.any().refine((val) => val.length > 0, "File is required"),
+  csv_file: z.instanceof(FileList).refine((val) => val.length > 0, "File is required"),
 });
 
 type CreateBillingSchema = z.infer<typeof createBillingSchema>;
 
-function CreateBilling() {
+function BillingsUpload() {
   const [open, setOpen] = useState(false);
+  const { state: { fileList }, dispatch } = useFileContext();
   const queryClient = useQueryClient();
 
   const {
@@ -22,7 +24,7 @@ function CreateBilling() {
     handleSubmit,
     formState: {
       errors,
-      isSubmitting
+      isSubmitting,
     }
   } = useForm<CreateBillingSchema>({
     resolver: zodResolver(createBillingSchema),
@@ -33,14 +35,24 @@ function CreateBilling() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["billings"] }),
   });
 
-  const handleCreateBilling = useCallback(async (data: CreateBillingSchema) => {
+  const handleCreateBilling = async (data: CreateBillingSchema) => {
     try {
-      await createBillingFn(data.csv_file[0]);
+      const csvFile = data.csv_file[0];
+
+      await createBillingFn(csvFile);
+
+      dispatch({
+        type: FileActionType.SET_FILE_LIST,
+        payload: {
+          fileList: [ ...(fileList || []), csvFile ]
+        }
+      });
+
       setOpen(false);
     } catch (err) {
       console.error("Something went wrong", err);
     }
-  }, [createBillingFn]);
+  };
 
   return (
     <Components.Dialog open={open} onOpenChange={setOpen}>
@@ -105,4 +117,4 @@ function CreateBilling() {
   );
 }
 
-export default memo(CreateBilling);
+export default BillingsUpload;
