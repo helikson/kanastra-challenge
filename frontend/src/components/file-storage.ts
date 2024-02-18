@@ -20,12 +20,11 @@ export const getFilesFromStorage = () => {
 };
 
 const reconstructFilesFromMetadata = (fileMetadataArray: Array<ILiteFileData>) => {
-   const reconstructedFiles = fileMetadataArray.map(metadata => {
+   return fileMetadataArray.map(metadata => {
       const { name, type, size } = metadata;
       const nullableData = new ArrayBuffer(size);
       return new File([nullableData], name, { type });
    });
-   return reconstructedFiles;
 };
 
 // interface IFileData {

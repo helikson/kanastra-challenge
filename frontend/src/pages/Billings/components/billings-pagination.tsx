@@ -46,7 +46,10 @@ function BillingsPagination({ links, onHandleChange }: IBillingsPaginationProps)
       return (
          <PaginationItem key={`pagination-${index}`}>
             <PaginationLink
-               onClick={() => onHandleChange(link.url as string)}
+               onClick={() => {
+                  if (link.active) return;
+                  onHandleChange(link.url as string)
+               }}
                isActive={link.active}
             >
                {link.label}

@@ -1,6 +1,6 @@
 function BillingsSkeleton() {
    return (
-      <div>Loading...</div>
+      <div data-testid="billings-skeleton">Loading...</div>
    )
 }
 

@@ -23,10 +23,8 @@ function Billings() {
           <Components.TableCaption>Billings Table</Components.TableCaption>
 
           <Components.TableHeader>
-            <Components.TableRow>
-              <Components.TableHead>
-                <BillingsUpload />
-              </Components.TableHead>
+            <Components.TableRow data-testid="billings__header">
+              <Components.TableHead><BillingsUpload /></Components.TableHead>
               <Components.TableHead>Name</Components.TableHead>
               <Components.TableHead>Government ID</Components.TableHead>
               <Components.TableHead>Email</Components.TableHead>

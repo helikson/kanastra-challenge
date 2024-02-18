@@ -17,7 +17,7 @@ function FilesUploaded() {
                </Components.TableCaption>
 
                <Components.TableHeader>
-                  <Components.TableRow>
+                  <Components.TableRow data-testid="files-uploaded__head--row">
                      <Components.TableHead>Name</Components.TableHead>
                      <Components.TableHead>Type</Components.TableHead>
                      <Components.TableHead>Size</Components.TableHead>

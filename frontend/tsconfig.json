@@ -27,6 +27,6 @@
     "types": ["vitest/globals"],
     "esModuleInterop": true
   },
-  "include": ["src", "src/test/config/setup.ts"],
+  "include": ["src", "src/tests/config/setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

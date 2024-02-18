@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "dev:node": "concurrently \"npx tailwindcss -i ./src/global.css -o ./dist/index.css --watch\" \"vite\"",
     "build:node": "tsc && vite build && npm run tailwindcss",
-    "test": "vitest --coverage"
+    "test": "vitest --run",
+    "coverage": "vitest --coverage --run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

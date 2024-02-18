@@ -77,6 +77,7 @@ function BillingsUpload() {
             <Components.Label htmlFor="csv_file">CSV File</Components.Label>
 
             <Components.Input
+              data-testid="billings-upload__csv-file-input"
               type="file"
               placeholder="Select CSV file"
               className="col-span-3"

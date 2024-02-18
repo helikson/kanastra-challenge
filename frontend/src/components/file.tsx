@@ -48,26 +48,6 @@ const FileReducer = (
   action: FileAction,
 ): FileContextState => {
   switch (action.type) {
-    case FileActionType.SET_FILE: {
-      return {
-        ...state,
-        file: action.payload?.file as File | null,
-        isLoading: false
-      };
-    }
-    case FileActionType.UPLOAD_FILE: {
-      return {
-        ...state,
-        fileList: action.payload?.fileList as File[],
-        isLoading: false
-      };
-    }
-    case FileActionType.CLEAR_FILE: {
-      return {
-        ...state,
-        file: null
-      }
-    }
     case FileActionType.SET_FILE_LIST: {
       const dataFileList = action.payload?.fileList as File[]
 
@@ -76,12 +56,6 @@ const FileReducer = (
       return {
         ...state,
         fileList: dataFileList
-      };
-    }
-    case FileActionType.SET_LOADING: {
-      return {
-        ...state,
-        isLoading: action.payload?.isLoading as boolean
       };
     }
     default: {

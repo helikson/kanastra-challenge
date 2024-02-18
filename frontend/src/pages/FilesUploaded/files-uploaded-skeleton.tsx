@@ -1,6 +1,6 @@
 function FilesUploadedSkeleton() {
    return (
-      <div>Loading...</div>
+      <div data-testid="files-uploaded-skeleton">Loading...</div>
    )
 }
 
